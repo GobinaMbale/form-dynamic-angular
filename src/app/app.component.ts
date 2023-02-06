@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { Validators } from '@angular/forms';
 import { Observable, of } from 'rxjs';
-import { IUser, TextField } from './utils/form.model';
+import { TextField } from './utils/form.model';
 
 @Component({
   selector: 'app-root',
@@ -10,39 +10,11 @@ import { IUser, TextField } from './utils/form.model';
 })
 export class AppComponent implements OnInit {
   title = 'form-dynamique';
-
-  userForm!: UntypedFormGroup;
-  constructor(private fb: FormBuilder) {
-
-  }
+  constructor() {}
   ngOnInit(): void {
-    this.userForm = this.createForm(this.userFormField)
   }
 
-  createForm(textFields: TextField[]): UntypedFormGroup {
-    const form = new UntypedFormGroup({});
-
-    const textFieldControls = textFields.map((value) => {
-      return {
-        fieldId: value.fieldId,
-        control: value.type === 'checkbox' ? new UntypedFormControl({ value: false, disabled: value.disabled }, value.validatorFns) : new UntypedFormControl({ value: null, disabled: value.disabled }, value.validatorFns),
-        updateFn: value.onValueChangeFn
-      }
-    })
-
-    textFieldControls.forEach((value) => {
-      form.addControl(value.fieldId, value.control);
-      form.get(`${value.fieldId}`)?.valueChanges.subscribe((data) => {
-        if (value.updateFn) {
-          value?.updateFn(data);
-        }
-      })
-    })
-
-    return form;
-  }
-
-  submitMethod(form: any) {
+  getValue(form: any): void {
     console.log(form);
   }
 
@@ -51,23 +23,29 @@ export class AppComponent implements OnInit {
       fieldId: 'name',
       label: 'name',
       type: 'text',
+      inputType: 'text',
       hidden: false,
       disabled: false,
-      validatorFns: [Validators.required]
+      validatorFns: [Validators.required],
+      class: 'form-control'
     },
     {
       fieldId: 'surname',
       label: 'surname',
       type: 'text',
+      inputType: 'text',
       hidden: false,
       disabled: false,
+      class: 'form-control'
     },
     {
       fieldId: 'phone',
       label: 'phone',
       type: 'text',
+      inputType: 'number',
       hidden: false,
       disabled: false,
+      class: 'form-control'
     }, {
       fieldId: 'country',
       label: 'country',
@@ -85,6 +63,7 @@ export class AppComponent implements OnInit {
         }
       },
       disabled: false,
+      class: 'form-control'
     }, {
       fieldId: 'town',
       label: 'town',
@@ -92,6 +71,7 @@ export class AppComponent implements OnInit {
       hidden: false,
       values: towns$,
       disabled: false,
+      class: 'form-control'
     }
   ]
 }
