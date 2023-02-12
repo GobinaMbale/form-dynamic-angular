@@ -105,6 +105,13 @@ export type TextField = {
   label: string;
 
   /**
+   * class to display has title
+   * can be JSON path to translate
+   * @type {string}
+   **/
+  class: string;
+
+  /**
    * fieldId how must match with formControlId
    * @type {string}
    **/
@@ -115,6 +122,12 @@ export type TextField = {
    * @type {string}
    **/
   type: string;
+
+  /**
+   * field inputType number, checkbox or text
+   * @type {string}
+   **/
+  inputType?: string;
 
   /**
    * validators function
